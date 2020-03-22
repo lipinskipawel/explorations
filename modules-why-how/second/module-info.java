@@ -1,0 +1,4 @@
+module theSecond {
+	requires theFirst;
+}
+
