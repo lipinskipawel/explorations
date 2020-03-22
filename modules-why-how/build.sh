@@ -12,6 +12,6 @@ javac -d output/classes -classpath output/mlib/first.jar `find second -name *.ja
 jar -c -f output/mlib/second.jar -C output/classes .
 /bin/rm -rf output/classes
 
-java -classpath output/mlib/first.jar:output/mlib/second.jar \
-	com.github.lipinskipawel.second.Second
+java -p output/mlib \
+	-m second/com.github.lipinskipawel.second.Second
 
