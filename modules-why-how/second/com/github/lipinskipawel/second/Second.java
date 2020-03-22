@@ -3,7 +3,7 @@ import com.github.lipinskipawel.first.First;
 
 public class Second {
 	public String getInfo() {
-		return "second";
+		return "second" + getClass().getModule();
 	}
 
 

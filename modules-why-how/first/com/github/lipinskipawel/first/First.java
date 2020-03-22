@@ -2,6 +2,6 @@ package com.github.lipinskipawel.first;
 
 public class First {
 	public String getInfo() {
-		return "first";
+		return "first " + getClass().getModule();
 	}
 }
