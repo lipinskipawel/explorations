@@ -1,3 +1,5 @@
+package com.github.lipinskipawel.proxy;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -8,16 +10,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-class JavaProxy {
-
-    public static void main(String[] args) {
-        final var proxy = InterfaceProxy.proxy(new ExpensiveOps());
-        proxy.compute(12);
-    }
-}
-
-class InterfaceProxy {
-    public static IExpensiveOps proxy(final ExpensiveOps realImplementation) {
+public class InterfaceProxy {
+    public static Main.IExpensiveOps proxy(final Main.ExpensiveOps realImplementation) {
         final InvocationHandler invocationHandler = new InvocationHandler() {
 
             private final Map<List<Object>, Object> cache = new ConcurrentHashMap<>();
@@ -37,12 +31,13 @@ class InterfaceProxy {
             }
         };
 
-        return (IExpensiveOps) Proxy.newProxyInstance(InterfaceProxy.class.getClassLoader(),
-                new Class<?>[]{IExpensiveOps.class},
+        return (Main.IExpensiveOps) Proxy.newProxyInstance(InterfaceProxy.class.getClassLoader(),
+                new Class<?>[]{Main.IExpensiveOps.class},
                 invocationHandler);
+
     }
 
-    static <T, R, E extends Exception> Function<T, R> rethrowFunction(Function_WithExceptions<T, R, E> function) throws E {
+    static <T, R, E extends Exception> Function<T, R> rethrowFunction(Main.Function_WithExceptions<T, R, E> function) throws E {
         return t -> {
             try {
                 return function.apply(t);
@@ -50,21 +45,5 @@ class InterfaceProxy {
                 throw new RuntimeException(exception);
             }
         };
-    }
-}
-
-interface Function_WithExceptions<T, R, E extends Exception> {
-    R apply(T t) throws E;
-}
-
-
-interface IExpensiveOps {
-    int compute(final int number);
-}
-
-class ExpensiveOps implements IExpensiveOps {
-    @Override
-    public int compute(int number) {
-        return number;
     }
 }

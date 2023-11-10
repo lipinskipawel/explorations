@@ -1,5 +1,6 @@
+package com.github.lipinskipawel.memoryModel.volatileObjects;
 
-final class MainVolatileObject {
+final class Main {
 
     private static volatile FlagObject flag = new FlagObject(false);
 

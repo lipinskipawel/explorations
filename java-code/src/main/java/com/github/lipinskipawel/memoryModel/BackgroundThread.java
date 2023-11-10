@@ -1,3 +1,5 @@
+package com.github.lipinskipawel.memoryModel;
+
 import java.util.concurrent.TimeUnit;
 
 public final class BackgroundThread {

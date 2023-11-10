@@ -1,3 +1,4 @@
+package com.github.lipinskipawel.memoryModel.volatileObjects;
 
 final class FlagObject {
 

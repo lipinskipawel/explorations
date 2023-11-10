@@ -1,3 +1,5 @@
+package com.github.lipinskipawel.functionalStyle;
+
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
@@ -18,7 +20,8 @@ public class StreamUtils {
         final var first = Stream.of("sdf", "SDf");
         final var second = Stream.of("1", "324");
 
-        zip(first, second, (a, b) -> a + "-" + b)
-                .forEach(System.out::println);
+        zip(first, second, (a, b) -> a + "-" + b).forEach(System.out::println);
+        System.out.println("sdf-1");
+        System.out.println("SDf-324");
     }
 }
