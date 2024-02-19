@@ -8,7 +8,7 @@ import static java.util.UUID.randomUUID;
 final class ConcreteClassTest {
 
     @Test
-    void should_build() {
+    void shouldBuild() {
         final var concreteClass = conreteBuilder()
                 .precision(12.2)
                 .abstractText("hello world")

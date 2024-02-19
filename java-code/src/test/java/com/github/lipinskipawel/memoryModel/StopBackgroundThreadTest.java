@@ -1,15 +1,16 @@
 package com.github.lipinskipawel.memoryModel;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.concurrent.TimeUnit;
 
-public final class BackgroundThread {
+final class StopBackgroundThreadTest {
 
     private static boolean stopRequest = false;
     private static volatile int some = 0;
 
-
-    public static void main(String[] args) throws InterruptedException {
-
+    @Test
+    void shouldStopBackgroundThread() throws InterruptedException {
         final Thread backgroundThread = new Thread(() -> {
             int i = 0;
             while (!stopRequest) {

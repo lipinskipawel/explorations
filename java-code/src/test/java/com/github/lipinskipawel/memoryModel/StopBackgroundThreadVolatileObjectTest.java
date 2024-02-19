@@ -1,10 +1,13 @@
-package com.github.lipinskipawel.memoryModel.volatileObjects;
+package com.github.lipinskipawel.memoryModel;
 
-final class Main {
+import org.junit.jupiter.api.Test;
+
+final class StopBackgroundThreadVolatileObjectTest {
 
     private static volatile FlagObject flag = new FlagObject(false);
 
-    public static void main(String[] args) throws InterruptedException {
+    @Test
+    void shouldStopBackgroundThread() throws InterruptedException {
 
         final Thread background = new Thread(() -> {
             System.out.println("Background thread has been started.");

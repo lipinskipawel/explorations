@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public class InterfaceProxy {
-    public static Main.IExpensiveOps proxy(final Main.ExpensiveOps realImplementation) {
+    public static SurroundingCode.IExpensiveOps proxy(final SurroundingCode.ExpensiveOps realImplementation) {
         final InvocationHandler invocationHandler = new InvocationHandler() {
 
             private final Map<List<Object>, Object> cache = new ConcurrentHashMap<>();
@@ -31,13 +31,13 @@ public class InterfaceProxy {
             }
         };
 
-        return (Main.IExpensiveOps) Proxy.newProxyInstance(InterfaceProxy.class.getClassLoader(),
-                new Class<?>[]{Main.IExpensiveOps.class},
+        return (SurroundingCode.IExpensiveOps) Proxy.newProxyInstance(InterfaceProxy.class.getClassLoader(),
+                new Class<?>[]{SurroundingCode.IExpensiveOps.class},
                 invocationHandler);
 
     }
 
-    static <T, R, E extends Exception> Function<T, R> rethrowFunction(Main.Function_WithExceptions<T, R, E> function) throws E {
+    static <T, R, E extends Exception> Function<T, R> rethrowFunction(SurroundingCode.Function_WithExceptions<T, R, E> function) throws E {
         return t -> {
             try {
                 return function.apply(t);
