@@ -6,17 +6,17 @@ public final class CommonMapper {
 
     public static CommonUser fromRecord(UsersRecord record) {
         return new CommonUser(
-                record.getId(),
-                record.getUsername(),
-                record.getLastVisit()
+            record.getId(),
+            record.getUsername(),
+            record.getLastVisit()
         );
     }
 
     public static UsersRecord toRecord(CommonUser user) {
         return new UsersRecord(
-                user.id(),
-                user.username(),
-                user.lastVisit()
+            user.id(),
+            user.username(),
+            user.lastVisit()
         );
     }
 }

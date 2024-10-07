@@ -10,10 +10,10 @@ final class ConcreteClassTest {
     @Test
     void shouldBuild() {
         final var concreteClass = conreteBuilder()
-                .precision(12.2)
-                .abstractText("hello world")
-                .uuid(randomUUID())
-                .build();
+            .precision(12.2)
+            .abstractText("hello world")
+            .uuid(randomUUID())
+            .build();
 
         concreteClass.printConcreteClass();
     }

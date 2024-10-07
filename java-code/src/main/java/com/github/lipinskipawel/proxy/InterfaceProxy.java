@@ -32,8 +32,8 @@ public class InterfaceProxy {
         };
 
         return (SurroundingCode.IExpensiveOps) Proxy.newProxyInstance(InterfaceProxy.class.getClassLoader(),
-                new Class<?>[]{SurroundingCode.IExpensiveOps.class},
-                invocationHandler);
+            new Class<?>[]{SurroundingCode.IExpensiveOps.class},
+            invocationHandler);
 
     }
 

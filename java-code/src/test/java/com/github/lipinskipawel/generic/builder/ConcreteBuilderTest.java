@@ -7,10 +7,10 @@ final class ConcreteBuilderTest {
     @Test
     void shouldTestBuilder() {
         final var concrete = new ConcreteBuilder.Builder()
-                .integerValue(12)
-                .abstractText("working as expected") // method from AbstractBuilder can be accessed after
-                // methods from concrete class
-                .build();
+            .integerValue(12)
+            .abstractText("working as expected") // method from AbstractBuilder can be accessed after
+            // methods from concrete class
+            .build();
 
         concrete.printConcrete();
     }

@@ -18,9 +18,9 @@ public abstract class CommonDatabaseSetup {
 
     private static PostgreSQLContainer<?> startPostgresContainer() {
         final var postgres = new PostgreSQLContainer<>("postgres:16.4")
-                .withDatabaseName("test")
-                .withUsername("user")
-                .withPassword("pass");
+            .withDatabaseName("test")
+            .withUsername("user")
+            .withPassword("pass");
         postgres.start();
         return postgres;
     }
@@ -37,7 +37,7 @@ public abstract class CommonDatabaseSetup {
 
     private static void migrateDatabase(DataSource dataSource) {
         Flyway.configure()
-                .dataSource(dataSource)
-                .load().migrate();
+            .dataSource(dataSource)
+            .load().migrate();
     }
 }

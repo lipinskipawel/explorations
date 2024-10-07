@@ -6,9 +6,9 @@ import java.util.UUID;
 import static java.util.Objects.requireNonNull;
 
 public record CommonUser(
-        UUID id,
-        String username,
-        Instant lastVisit
+    UUID id,
+    String username,
+    Instant lastVisit
 ) {
 
     public CommonUser {
