@@ -3,6 +3,7 @@ package com.github.lipinskipawel.math;
 import java.math.BigDecimal;
 
 import static com.github.lipinskipawel.math.Cash.Currency;
+import static com.github.lipinskipawel.math.Cash.cash;
 import static java.util.Objects.requireNonNull;
 
 final class CurrencyPair {
@@ -20,20 +21,18 @@ final class CurrencyPair {
         return new CurrencyPair(baseCurrency, quote, quoteCurrency);
     }
 
+    Cash exchange(Cash cash) {
+        if (cash.currency() == baseCurrency) {
+            return cash(cash.amount().multiply(quote).toString(), quotedCurrency);
+        }
+        if (cash.currency() == quotedCurrency) {
+            return cash(cash.amount().multiply(inverted().quote).toString(), baseCurrency);
+        }
+        throw new RuntimeException("Cash currency [%s] does not match currency pair [%s]".formatted(cash.currency(), this));
+    }
+
     CurrencyPair inverted() {
         return new CurrencyPair(quotedCurrency, BigDecimal.ONE.divide(quote), baseCurrency);
-    }
-
-    Currency baseCurrency() {
-        return baseCurrency;
-    }
-
-    BigDecimal quote() {
-        return quote;
-    }
-
-    Currency quotedCurrency() {
-        return quotedCurrency;
     }
 
     @Override

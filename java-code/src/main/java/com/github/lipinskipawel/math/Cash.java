@@ -30,19 +30,12 @@ final class Cash {
         return new Cash(this.amount.multiply(BigDecimal.valueOf(multiplier)), this.currency);
     }
 
-    public Cash exchange(BigDecimal exchangeRate, Currency currency) {
-        return new Cash(this.amount.multiply(exchangeRate), currency);
+    public BigDecimal amount() {
+        return amount;
     }
 
-    public Cash exchange(CurrencyPair currencyPair) {
-        if (currency == currencyPair.baseCurrency()) {
-            final var inverted = currencyPair.inverted();
-            return new Cash(this.amount.multiply(inverted.quote()), inverted.baseCurrency());
-        }
-        if (currency == currencyPair.quotedCurrency()) {
-            return new Cash(this.amount.multiply(currencyPair.quote()), currencyPair.baseCurrency());
-        }
-        throw new RuntimeException("Cash currency [%s] does not match currency pair [%s]".formatted(currency, currencyPair));
+    public Currency currency() {
+        return currency;
     }
 
     @Override
