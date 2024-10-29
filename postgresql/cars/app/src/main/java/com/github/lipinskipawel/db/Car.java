@@ -12,20 +12,20 @@ public final class Car {
     private final String brand;
     private final String model;
     private final CarState state;
-    private final Optional<Instant> assembledData;
+    private final Optional<Instant> assembledDate;
 
     public Car(
         UUID id,
         String brand,
         String model,
         CarState state,
-        Optional<Instant> assembledData
+        Optional<Instant> assembledDate
     ) {
         this.id = requireNonNull(id);
         this.brand = requireNonNull(brand);
         this.model = requireNonNull(model);
         this.state = requireNonNull(state);
-        this.assembledData = requireNonNull(assembledData);
+        this.assembledDate = requireNonNull(assembledDate);
     }
 
     public UUID id() {
@@ -45,7 +45,7 @@ public final class Car {
     }
 
     public Optional<Instant> assembledData() {
-        return assembledData;
+        return assembledDate;
     }
 
     @Override
@@ -57,12 +57,12 @@ public final class Car {
             && Objects.equals(brand, car.brand)
             && Objects.equals(model, car.model)
             && Objects.equals(state, car.state)
-            && Objects.equals(assembledData, car.assembledData);
+            && Objects.equals(assembledDate, car.assembledDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, brand, model, state, assembledData);
+        return Objects.hash(id, brand, model, state, assembledDate);
     }
 
     @Override
@@ -72,7 +72,7 @@ public final class Car {
             ", brand='" + brand + '\'' +
             ", model='" + model + '\'' +
             ", state='" + state + '\'' +
-            ", assembledData=" + assembledData +
+            ", assembledDate=" + assembledDate +
             '}';
     }
 }

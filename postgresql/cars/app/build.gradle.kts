@@ -1,10 +1,17 @@
 plugins {
-    application
+    id("java-library")
     id("com.revolut.jooq-docker") version "0.3.12"
 }
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
+    }
 }
 
 dependencies {
@@ -14,6 +21,8 @@ dependencies {
     implementation(libs.org.flyway.core)
     runtimeOnly(libs.org.flyway.postgresql)
     jdbc(libs.org.postgresql.driver)
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.2")
 
     implementation(libs.com.zaxxer.hikariCP)
 
@@ -25,12 +34,13 @@ dependencies {
     testImplementation(libs.org.postgresql.driver)
     testImplementation("org.testcontainers:testcontainers:1.20.1")
     testImplementation("org.testcontainers:postgresql:1.20.1")
-
-    testImplementation("org.apache.groovy:groovy-all:4.0.23")
-    testImplementation("org.spockframework:spock-core:2.4-M4-groovy-4.0")
 }
 
 tasks {
+    build {
+        dependsOn("uberJar")
+    }
+
     generateJooqClasses {
         schemas = arrayOf("public")
         basePackageName = "com.github.lipinskipawel.jooq"
@@ -45,18 +55,29 @@ tasks {
             )
         }
     }
-}
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+    create<Jar>("uberJar") {
+        archiveClassifier = "uber"
+
+        from(sourceSets.main.get().output)
+
+        dependsOn(configurations.runtimeClasspath)
+        from(configurations.runtimeClasspath.get()
+            .filter { it.name.endsWith("jar") }
+            .map { zipTree(it) }
+        )
+
+        manifest {
+            attributes("Main-Class" to "com.github.lipinskipawel.App")
+        }
+
+        // default in https://github.com/johnrengelman/shadow
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        exclude("META-INF/INDEX.LIST", "META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+        // mergeServiceFiles()
     }
-}
 
-application {
-    mainClass = "com.github.lipinskipawel.App"
-}
-
-tasks.named<Test>("test") {
-    useJUnitPlatform()
+    test {
+        useJUnitPlatform()
+    }
 }

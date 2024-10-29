@@ -4,13 +4,9 @@ import com.github.lipinskipawel.IntegrationSpec;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.Instant;
 import java.util.Optional;
 
 import static com.github.lipinskipawel.db.CarState.ASSEMBLED;
-import static java.time.Clock.systemUTC;
-import static java.time.Clock.tick;
-import static java.time.temporal.ChronoUnit.MICROS;
 import static java.util.UUID.randomUUID;
 
 final class CarRepositoryTest
@@ -22,7 +18,6 @@ final class CarRepositoryTest
     @Test
     void add_car_to_database() {
         final var volvo = xc60Volvo();
-        System.out.println(volvo);
         carRepository.save(volvo);
 
         final var fromRepo = carRepository.find(volvo.id());
@@ -35,9 +30,5 @@ final class CarRepositoryTest
 
     private Car xc60Volvo() {
         return new Car(randomUUID(), "Volvo", "xc60", ASSEMBLED, Optional.of(instant()));
-    }
-
-    public Instant instant() {
-        return tick(systemUTC(), MICROS.getDuration()).instant();
     }
 }
