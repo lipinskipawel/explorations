@@ -5,3 +5,4 @@ plugins {
 
 rootProject.name = "cars"
 include("app")
+include("random")
