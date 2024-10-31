@@ -12,6 +12,7 @@ import static io.javalin.apibuilder.ApiBuilder.post;
 import static java.util.Objects.requireNonNull;
 
 public final class CarResource implements EndpointGroup {
+
     private final CarRepository carRepository;
     private final Parser parser;
     private final Routes routes = new Routes();

@@ -1,11 +1,13 @@
 package com.github.lipinskipawel;
 
+import com.github.lipinskipawel.db.CarRepository;
 import com.github.lipinskipawel.json.Parser;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.github.lipinskipawel.db.CarRepository;
 
 import javax.sql.DataSource;
+
+import static com.github.lipinskipawel.HttpApplicationServer.httpServer;
 
 public class App {
 
@@ -16,7 +18,7 @@ public class App {
         final var parser = new Parser();
         final var carRepository = new CarRepository(dataSource);
 
-        final var app = HttpApplicationServer.httpServer(carRepository, parser);
+        final var app = httpServer(carRepository, parser);
         app.start(8090);
     }
 

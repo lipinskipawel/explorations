@@ -4,13 +4,13 @@ import com.github.lipinskipawel.db.Car;
 import com.github.lipinskipawel.db.CarState;
 import com.github.lipinskipawel.json.Parser;
 
+import java.io.IOException;
 import java.net.URI;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.lipinskipawel.Functionals.unchecked;
 import static java.net.http.HttpClient.newHttpClient;
 import static java.net.http.HttpRequest.BodyPublishers.ofString;
 import static java.net.http.HttpRequest.newBuilder;
@@ -38,11 +38,17 @@ public final class Application {
             .map(PARSER::parse);
 
         try (var httpClient = newHttpClient()) {
-            final var requestBuilder = newBuilder().uri(URI.create("http://localhost:8080/cars"));
+            final var requestBuilder = newBuilder().uri(URI.create("http://localhost:8090/cars"));
 
             randomCars
                 .map(it -> requestBuilder.POST(ofString(it)).build())
-                .forEach(it -> unchecked(() -> httpClient.send(it, discarding())));
+                .forEach(it -> {
+                    try {
+                        httpClient.send(it, discarding());
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
         }
     }
 

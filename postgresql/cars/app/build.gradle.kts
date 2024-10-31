@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("com.revolut.jooq-docker") version "0.3.12"
 }
 
@@ -20,11 +21,13 @@ dependencies {
     implementation("org.jooq:jooq:3.19.11")
     implementation(libs.org.flyway.core)
     runtimeOnly(libs.org.flyway.postgresql)
+    implementation(libs.org.postgresql.driver)
     jdbc(libs.org.postgresql.driver)
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.2")
 
     implementation(libs.com.zaxxer.hikariCP)
+    implementation("org.slf4j:slf4j-simple:2.0.7")
 
     testImplementation(libs.testing.junit.api)
     testImplementation(libs.testing.junit.engine)
@@ -38,7 +41,7 @@ dependencies {
 
 tasks {
     build {
-        dependsOn("uberJar")
+        dependsOn("shadowJar")
     }
 
     generateJooqClasses {
@@ -56,25 +59,15 @@ tasks {
         }
     }
 
-    create<Jar>("uberJar") {
-        archiveClassifier = "uber"
-
-        from(sourceSets.main.get().output)
-
-        dependsOn(configurations.runtimeClasspath)
-        from(configurations.runtimeClasspath.get()
-            .filter { it.name.endsWith("jar") }
-            .map { zipTree(it) }
-        )
-
+    shadowJar {
+        archiveBaseName.set("cars")
+        archiveClassifier.set("")
+        archiveVersion.set("")
+        isZip64 = true
+        mergeServiceFiles()
         manifest {
             attributes("Main-Class" to "com.github.lipinskipawel.App")
         }
-
-        // default in https://github.com/johnrengelman/shadow
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        exclude("META-INF/INDEX.LIST", "META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
-        // mergeServiceFiles()
     }
 
     test {
