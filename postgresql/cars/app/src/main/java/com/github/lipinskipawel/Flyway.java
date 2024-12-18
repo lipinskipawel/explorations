@@ -14,6 +14,11 @@ final class Flyway {
             .dataSource(dataSource)
             .schemas("public")
             .load();
-        flyway.migrate();
+        try {
+            flyway.migrate();
+        } catch (Exception e) {
+            flyway.repair();
+            flyway.migrate();
+        }
     }
 }

@@ -1,4 +1,4 @@
-create table if not exists cars(
+CREATE TABLE if NOT EXISTS cars(
     id               UUID            PRIMARY KEY,
     brand            varchar(20)     NOT NULL,
     model            varchar(50)     NOT NULL,

@@ -1,3 +1,7 @@
+import org.jooq.meta.jaxb.ForcedType
+import org.jooq.meta.jaxb.SyntheticObjectsType
+import org.jooq.meta.jaxb.SyntheticPrimaryKeyType
+
 plugins {
     id("java-library")
     id("com.github.johnrengelman.shadow") version "8.1.1"
@@ -50,12 +54,17 @@ tasks {
         outputDirectory.set(project.layout.buildDirectory.dir("generated-sources"))
         excludeFlywayTable = true
         customizeGenerator {
-            database.withForcedTypes(
-                org.jooq.meta.jaxb.ForcedType()
-                    .withUserType("java.time.Instant")
-                    .withConverter("com.github.lipinskipawel.db.JooqInstantConverter")
-                    .withTypes("TIMESTAMP")
-            )
+            database
+                .withForcedTypes(
+                    ForcedType()
+                        .withUserType("java.time.Instant")
+                        .withConverter("com.github.lipinskipawel.db.JooqInstantConverter")
+                        .withTypes("TIMESTAMP")
+                )
+                .withSyntheticObjects(
+                    SyntheticObjectsType()
+                        .withPrimaryKeys(SyntheticPrimaryKeyType().withTables(".*\\.CARS").withFields("ID"))
+                )
         }
     }
 
