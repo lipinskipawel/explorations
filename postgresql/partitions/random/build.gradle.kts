@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":app"))
+    implementation(project(":car-state"))
 
     testImplementation(libs.testing.junit.api)
     testImplementation(libs.testing.junit.engine)

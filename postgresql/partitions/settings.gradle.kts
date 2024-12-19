@@ -3,6 +3,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
 
-rootProject.name = "cars"
-include("app")
+rootProject.name = "partitions"
+include("car-state")
 include("random")
