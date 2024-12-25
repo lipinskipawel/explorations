@@ -5,3 +5,4 @@ plugins {
 
 rootProject.name = "locks"
 include("jdbc")
+include("jooq")
