@@ -2,13 +2,13 @@
 
 set -e
 
-cd ..
+cd ../..
 
 echo "Building car project"
-./gradlew :app:clean :app:build -x test &> /dev/null
+./gradlew :car-state:clean :car-state:build -x test &> /dev/null
 
 echo "Running car project"
-java -jar app/build/libs/cars.jar &> /dev/null &
+java -jar car-state/build/libs/cars.jar &> /dev/null &
 CAR_PID=$!
 echo $CAR_PID
 

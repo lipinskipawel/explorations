@@ -5,4 +5,5 @@ plugins {
 
 rootProject.name = "partitions"
 include("car-state")
+include("car-started-date")
 include("random")
