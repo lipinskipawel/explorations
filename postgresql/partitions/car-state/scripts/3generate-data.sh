@@ -14,7 +14,7 @@ echo $CAR_PID
 
 sleep 10
 echo "Generating car data"
-./gradlew :random:clean :random:generateCars --args='numCars=100' &> /dev/null
+./gradlew :random:car-state:clean :random:car-state:generateCars --args='numCars=100' &> /dev/null
 
 kill $CAR_PID
 echo "Car application has been stopped"

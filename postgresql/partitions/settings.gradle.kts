@@ -4,6 +4,11 @@ plugins {
 }
 
 rootProject.name = "partitions"
+
 include("car-state")
 include("car-started-date")
-include("random")
+
+include(":random:car-state")
+project(":random:car-state").projectDir = file("random/car-state")
+include(":random:car-started-date")
+project(":random:car-started-date").projectDir = file("random/car-started-date")
