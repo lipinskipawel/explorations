@@ -4,8 +4,6 @@ import com.github.lipinskipawel.IntegrationSpec;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static com.github.lipinskipawel.db.CarState.ASSEMBLED;
 import static java.util.UUID.randomUUID;
 
@@ -29,6 +27,6 @@ final class CarRepositoryTest
     }
 
     private Car xc60Volvo() {
-        return new Car(randomUUID(), "Volvo", "xc60", ASSEMBLED, Optional.of(instant()));
+        return new Car(randomUUID(), "Volvo", "xc60", ASSEMBLED, instant());
     }
 }

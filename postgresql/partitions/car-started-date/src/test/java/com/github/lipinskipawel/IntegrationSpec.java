@@ -7,12 +7,14 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.time.Instant;
 
 import static com.github.lipinskipawel.HttpApplicationServer.httpServer;
 import static java.time.Clock.systemUTC;
 import static java.time.Clock.tick;
 import static java.time.temporal.ChronoUnit.MICROS;
+import static org.testcontainers.utility.DockerImageName.parse;
 
 public abstract class IntegrationSpec {
 
@@ -48,12 +50,27 @@ public abstract class IntegrationSpec {
     }
 
     private static PostgreSQLContainer<?> dbInstance() {
-        final var postgresContainer = new PostgreSQLContainer<>("postgres:16.4")
-            .withDatabaseName("cars")
-            .withUsername("car_user")
-            .withPassword("car_password");
-        postgresContainer.start();
-        return postgresContainer;
+        try {
+            final var image = parse("ghcr.io/lipinskipawel/postgresql16-pg_partman5:1")
+                .asCompatibleSubstituteFor("postgres");
+            final var postgresContainer = new PostgreSQLContainer<>(image)
+                .withDatabaseName("cars")
+                .withUsername("car_user")
+                .withPassword("car_password");
+            postgresContainer.start();
+            postgresContainer.execInContainer("psql", "-U", "car_user", "-p", "5432", "-d", "cars",
+                "-c", """
+                    CREATE SCHEMA IF NOT EXISTS partman;
+                    CREATE EXTENSION pg_partman SCHEMA partman;
+                    CREATE ROLE partman_user;
+                    GRANT ALL ON ALL TABLES IN SCHEMA partman TO partman_user;
+                    GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA partman TO partman_user;
+                    GRANT USAGE ON SCHEMA partman TO partman_user;
+                    GRANT ALL ON SCHEMA partman TO partman_user;
+                    """);
+            return postgresContainer;
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 }

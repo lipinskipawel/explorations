@@ -1,6 +1,7 @@
 #!/bin/bash
 
-docker pull postgres:16.4 &> /dev/null
+docker pull postgresql-partition &> /dev/null
+
 docker rm -f pg_container &> /dev/null
 
 docker run -d \
@@ -10,7 +11,7 @@ docker run -d \
 	-e POSTGRES_PASSWORD=car_password \
 	-e POSTGRES_DB=cars \
 	-v pg_data:/var/lib/postgresql/data \
-	postgres:16.4 &> /dev/null
+	postgresql-partition &> /dev/null
 
 echo "Database started"
 

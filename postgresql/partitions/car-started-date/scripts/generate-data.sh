@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ./1create-volume.sh
-./2start-postgresql.sh
-./3generate-data.sh
-./4stop-container.sh
+./2create-image.sh
+./3start-postgresql.sh
+./4generate-data.sh
+./5stop-container.sh
 

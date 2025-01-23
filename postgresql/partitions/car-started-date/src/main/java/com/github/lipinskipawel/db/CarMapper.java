@@ -2,8 +2,6 @@ package com.github.lipinskipawel.db;
 
 import com.github.lipinskipawel.jooq.tables.records.CarsStartedDateRecord;
 
-import static java.util.Optional.ofNullable;
-
 final class CarMapper {
 
     static CarsStartedDateRecord toRecord(Car car) {
@@ -12,7 +10,7 @@ final class CarMapper {
             car.brand(),
             car.model(),
             car.state().name(),
-            car.startedDate().orElse(null)
+            car.startedDate()
         );
     }
 
@@ -22,7 +20,7 @@ final class CarMapper {
             carsRecord.getBrand(),
             carsRecord.getModel(),
             CarState.valueOf(carsRecord.getState()),
-            ofNullable(carsRecord.getStartedDate())
+            carsRecord.getStartedDate()
         );
     }
 }

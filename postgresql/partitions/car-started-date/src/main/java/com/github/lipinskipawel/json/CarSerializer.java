@@ -16,13 +16,7 @@ public final class CarSerializer extends JsonSerializer<Car> {
         gen.writeStringField("brand", car.brand());
         gen.writeStringField("model", car.model());
         gen.writeStringField("state", car.state().toString());
-        car.startedDate().ifPresent(it -> {
-            try {
-                gen.writeStringField("startedDate", it.toString());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        gen.writeStringField("startedDate", car.startedDate().toString());
         gen.writeEndObject();
     }
 }

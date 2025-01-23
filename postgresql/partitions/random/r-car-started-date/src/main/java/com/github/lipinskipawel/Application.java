@@ -9,7 +9,6 @@ import java.net.URI;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 import static java.net.http.HttpClient.newHttpClient;
 import static java.net.http.HttpRequest.BodyPublishers.ofString;
@@ -62,7 +61,7 @@ public final class Application {
     }
 
     private static Car randomCar() {
-        return new Car(randomUUID(), randomBrand(), randomModel(), randomCarState(), Optional.of(randomTime()));
+        return new Car(randomUUID(), randomBrand(), randomModel(), randomCarState(), randomTime());
     }
 
     private static String randomBrand() {
@@ -81,8 +80,17 @@ public final class Application {
     private static Instant randomTime() {
         return Clock.tick(systemUTC(), MICROS.getDuration())
             .instant()
-            .minus(current().nextInt(60), DAYS)
-            .minus(current().nextInt(60), HOURS)
-            .minus(current().nextInt(60), MINUTES);
+            .plus(current().nextInt(monthInDays()), DAYS)
+            .plus(current().nextInt(60), DAYS)
+            .plus(current().nextInt(60), HOURS)
+            .plus(current().nextInt(60), MINUTES);
+    }
+
+    private static int monthInDays() {
+        final var number = current().nextInt(0, 2);
+        if (number == 0) {
+            return 31;
+        }
+        return (number * 30) + number;
     }
 }

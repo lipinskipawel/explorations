@@ -41,6 +41,13 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.20.1")
 }
 
+jooq {
+    image {
+        repository = "ghcr.io/lipinskipawel/postgresql16-pg_partman5"
+        tag = "1"
+    }
+}
+
 tasks {
     build {
         dependsOn("shadowJar")
@@ -51,6 +58,17 @@ tasks {
         basePackageName = "com.github.lipinskipawel.jooq"
         outputDirectory.set(project.layout.buildDirectory.dir("generated-sources"))
         excludeFlywayTable = true
+        flywayProperties = mapOf(
+            "flyway.initSql" to """
+            CREATE SCHEMA IF NOT EXISTS partman;
+            CREATE EXTENSION pg_partman SCHEMA partman;
+            CREATE ROLE partman_user;
+            GRANT ALL ON ALL TABLES IN SCHEMA partman TO partman_user;
+            GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA partman TO partman_user;
+            GRANT USAGE ON SCHEMA partman TO partman_user;
+            GRANT ALL ON SCHEMA partman TO partman_user;
+            """.trimIndent()
+        )
         customizeGenerator {
             database
                 .withForcedTypes(

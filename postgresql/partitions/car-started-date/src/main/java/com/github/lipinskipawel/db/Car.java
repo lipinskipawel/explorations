@@ -2,7 +2,6 @@ package com.github.lipinskipawel.db;
 
 import java.time.Instant;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
@@ -12,14 +11,14 @@ public final class Car {
     private final String brand;
     private final String model;
     private final CarState state;
-    private final Optional<Instant> startedDate;
+    private final Instant startedDate;
 
     public Car(
         UUID id,
         String brand,
         String model,
         CarState state,
-        Optional<Instant> startedDate
+        Instant startedDate
     ) {
         this.id = requireNonNull(id);
         this.brand = requireNonNull(brand);
@@ -44,7 +43,7 @@ public final class Car {
         return state;
     }
 
-    public Optional<Instant> startedDate() {
+    public Instant startedDate() {
         return startedDate;
     }
 

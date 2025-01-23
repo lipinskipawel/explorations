@@ -6,7 +6,6 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static com.github.lipinskipawel.db.CarState.ASSEMBLED;
 import static java.util.UUID.randomUUID;
@@ -17,7 +16,7 @@ final class CarResourceTest
 
     @Test
     void save_car() throws IOException, InterruptedException {
-        final var volvo = new Car(randomUUID(), "volvo", "xc60", ASSEMBLED, Optional.of(instant()));
+        final var volvo = new Car(randomUUID(), "volvo", "xc60", ASSEMBLED, instant());
         api.post("/cars", volvo).body();
 
         final var response = api.get("/cars/%s".formatted(volvo.id()));
