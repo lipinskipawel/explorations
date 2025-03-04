@@ -1,4 +1,4 @@
-package com.github.lipinskipawel.leetcode;
+package com.github.lipinskipawel.leetcode.pointers;
 
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,9 +34,9 @@ class BinarySearchTest implements WithAssertions {
 
     @ParameterizedTest
     @MethodSource("searches")
-    void search(List<Integer> list, int target, int output) {
+    void search(List<Integer> list, int target, int expected) {
         final var result = binarySearch.search(list, target);
 
-        assertThat(result).isEqualTo(output);
+        assertThat(result).isEqualTo(expected);
     }
 }
