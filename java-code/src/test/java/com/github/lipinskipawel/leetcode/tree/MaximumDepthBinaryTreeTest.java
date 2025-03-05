@@ -26,7 +26,7 @@ class MaximumDepthBinaryTreeTest implements WithAssertions {
 
     @ParameterizedTest
     @MethodSource("trees")
-    void isBalanced(TreeNode tree, int expected) {
+    void maxDepth(TreeNode tree, int expected) {
         final var result = maximumDepthBinaryTree.maxDepth(tree);
 
         assertThat(result).isEqualTo(expected);

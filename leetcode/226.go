@@ -1,6 +1,6 @@
 package main
 
-//Invert Binary Tree
+// Invert Binary Tree
 
 import (
 	"fmt"
