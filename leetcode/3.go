@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+type TestCase struct {
+	input  string
+	output int
+}
+
 // Example 1
 // Input: s = "abcabcbb"
 // Output: 3
@@ -18,50 +23,40 @@ import (
 // Input: s = "pwwkew"
 // Output: 3
 func main() {
-	first := "abcabcbb"
-	second := "bbbbb"
-	third := "pwwkew"
+	first := &TestCase{input: "abcabcbb", output: 3}
+	second := &TestCase{input: "bbbbb", output: 1}
+	third := &TestCase{input: "pwwkew", output: 3}
 
-	fmt.Println(lengthOfLongestSubstring(first))
-	fmt.Println(lengthOfLongestSubstring(second))
-	fmt.Println(lengthOfLongestSubstring(third))
+	fmt.Println(lengthOfLongestSubstring(first.input), " should be ", first.output)
+	fmt.Println(lengthOfLongestSubstring(second.input), " should be ", second.output)
+	fmt.Println(lengthOfLongestSubstring(third.input), " should be ", third.output)
 }
 
-func lengthOfLongestSubstring(str string) int {
-	original := []rune(str)
-	if len(original) == 0 {
-		return 0
-	}
+func lengthOfLongestSubstring(s string) int {
+	result := 0
 	left := 0
-	right := 1
-	maxResult := 1
+	right := 0
 
-	seenLetters := make([]rune, 0, 8)
-	seenLetters = append(seenLetters, original[left])
-	result := 1
+	seenLetters := make(map[byte]int)
 
-	for right < len(str) {
-		if !containsRune(seenLetters, original[right]) {
-			result++
-			maxResult = max(maxResult, result)
+	for right < len(s) {
+		_, saw := seenLetters[s[right]]
+		if !saw {
+			seenLetters[s[right]] = 1
+			result = max(result, len(seenLetters))
 		} else {
-			maxResult = max(maxResult, result)
-			result = 1
-			left = right
-			seenLetters = make([]rune, 0, 8)
+			result = max(result, len(seenLetters))
+			_, saw := seenLetters[s[right]]
+			for saw {
+				delete(seenLetters, s[left])
+				left += 1
+				_, saw = seenLetters[s[right]]
+			}
+			seenLetters[s[right]] = 1
 		}
 
-		seenLetters = append(seenLetters, original[right])
-		right++
+		right += 1
 	}
-	return maxResult
-}
 
-func containsRune(chars []rune, char rune) bool {
-	for i := 0; i < len(chars); i++ {
-		if chars[i] == char {
-			return true
-		}
-	}
-	return false
+	return result
 }
