@@ -1,4 +1,4 @@
-package com.github.lipinskipawel.leetcode;
+package com.github.lipinskipawel.leetcode.pointers;
 
 import java.util.HashSet;
 

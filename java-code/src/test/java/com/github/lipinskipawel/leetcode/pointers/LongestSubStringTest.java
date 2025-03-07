@@ -1,4 +1,4 @@
-package com.github.lipinskipawel.leetcode;
+package com.github.lipinskipawel.leetcode.pointers;
 
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
