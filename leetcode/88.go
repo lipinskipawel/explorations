@@ -1,6 +1,6 @@
 package main
 
-// Maximum Depth of Binary Tree
+// Merge Sorted Array
 
 import "fmt"
 
