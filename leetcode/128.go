@@ -34,19 +34,16 @@ func main() {
 }
 
 func longestConsecutive(nums []int) int {
-	set := toMap(nums)
+	set := newIntSet(nums)
 	longest := 0
 
 	for _, current := range nums {
-		// missing values in map return 0,
-		// here we can omit the val, ok := set[current-1]
-		// because false (or 0) is not a valid case for us
-		if set[current-1] {
+		if set.has(current - 1) {
 			continue
 		}
 
 		length := 1
-		for set[current+length] {
+		for set.has(current + length) {
 			length++
 		}
 		longest = max(longest, length)
@@ -54,12 +51,22 @@ func longestConsecutive(nums []int) int {
 	return longest
 }
 
-func toMap(nums []int) map[int]bool {
-	set := make(map[int]bool, len(nums))
+// struct{} - is type, struct without any fields, 0 bytes
+type intSet map[int]struct{}
+
+func newIntSet(nums []int) intSet {
+	set := make(intSet, len(nums))
 
 	for _, v := range nums {
-		set[v] = true
+		// struct{} - type
+		// {} - value
+		set[v] = struct{}{}
 	}
 
 	return set
+}
+
+func (s intSet) has(v int) bool {
+	_, ok := s[v]
+	return ok
 }
